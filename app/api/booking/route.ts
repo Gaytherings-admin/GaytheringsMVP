@@ -100,7 +100,8 @@ export async function POST(request: Request) {
               background: #f9f9f9;
             }
             .header {
-              background: #2563eb;
+              background: #7355D6; /* Fallback for email clients that don't support gradients */
+              background: linear-gradient(135deg, #6E56CF 0%, #8b73e0 100%);
               color: white;
               padding: 20px;
               border-radius: 8px 8px 0 0;
@@ -115,7 +116,7 @@ export async function POST(request: Request) {
             }
             .label {
               font-weight: bold;
-              color: #2563eb;
+              color: #6E56CF;
               margin-bottom: 5px;
               display: block;
             }
@@ -131,7 +132,7 @@ export async function POST(request: Request) {
               gap: 8px;
             }
             .time-slot {
-              background: #2563eb;
+              background: #7355D6;
               color: white;
               padding: 6px 12px;
               border-radius: 4px;
@@ -177,9 +178,9 @@ export async function POST(request: Request) {
                 <div class="value">${ndaSigned ? '✅ Yes' : '❌ No'}</div>
               </div>
               
-              <div class="field" style="margin-top: 20px; padding-top: 20px; border-top: 1px solid #eee;">
-                <p style="color: #666; font-size: 12px;">
-                  This booking request was submitted from the Gatherings CMS platform.
+              <div class="field" style="margin-top: 20px; padding-top: 20px; border-top: 2px solid #6E56CF;">
+                <p style="color: #666; font-size: 12px; margin: 0;">
+                  This booking request was submitted from the <strong style="color: #6E56CF;">Gatherings CMS</strong> platform.
                 </p>
               </div>
             </div>
