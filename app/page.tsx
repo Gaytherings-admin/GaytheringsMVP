@@ -96,6 +96,16 @@ export default function Home() {
   const [isAdmin, setIsAdmin] = useState(false);
   const [showProfileModal, setShowProfileModal] = useState(false);
   const [needsProfileCompletion, setNeedsProfileCompletion] = useState(false);
+  const [showBookingModal, setShowBookingModal] = useState(false);
+  const [isSubmittingBooking, setIsSubmittingBooking] = useState(false);
+  const [bookingFormData, setBookingFormData] = useState({
+    name: '',
+    email: '',
+    eventDescription: '',
+    ticketingPlatform: '',
+    timeSlots: [] as string[],
+    ndaSigned: false
+  });
 
   useEffect(() => {
     const fetchData = async () => {
@@ -320,6 +330,91 @@ export default function Home() {
         )}
 
         <div className={styles.apiData}>
+          {/* Something Big is Coming Banner */}
+          <div style={{
+            background: '#2563eb',
+            borderRadius: '12px',
+            padding: '1.5rem 2rem',
+            marginBottom: '2rem',
+            display: 'flex',
+            alignItems: 'flex-start',
+            gap: '1rem',
+            boxShadow: '0 4px 12px rgba(37, 99, 235, 0.3)',
+            border: 'none'
+          }}>
+            <div style={{
+              fontSize: '1.75rem',
+              lineHeight: '1',
+              flexShrink: 0,
+              marginTop: '0.125rem',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              width: '32px',
+              height: '32px'
+            }}>
+              ⭐
+            </div>
+            <div style={{
+              flex: 1,
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '0.75rem'
+            }}>
+              <h3 style={{
+                margin: 0,
+                fontSize: '1.25rem',
+                fontWeight: '700',
+                color: '#ffffff',
+                lineHeight: '1.4'
+              }}>
+                Something big is coming to Gaytherings.
+              </h3>
+              <p style={{
+                margin: 0,
+                fontSize: '0.95rem',
+                color: '#ffffff',
+                lineHeight: '1.6',
+                opacity: 0.95
+              }}>
+                We're building the next chapter of Gaytherings and it changes how organizers grow. Book an intro call to see what's coming, share how you run your events, and position yourself to win from day one. Early partners receive added visibility, ad credits and launch benefits. No commitment.
+              </p>
+              <div style={{
+                marginTop: '0.5rem'
+              }}>
+                <a
+                  href="#"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setShowBookingModal(true);
+                  }}
+                  style={{
+                    display: 'inline-block',
+                    padding: '0.75rem 1.5rem',
+                    background: '#ffffff',
+                    color: '#2563eb',
+                    textDecoration: 'none',
+                    borderRadius: '8px',
+                    fontWeight: '600',
+                    fontSize: '0.95rem',
+                    transition: 'all 0.2s ease',
+                    boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)'
+                  }}
+                  onMouseOver={(e) => {
+                    e.currentTarget.style.transform = 'translateY(-1px)';
+                    e.currentTarget.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.15)';
+                  }}
+                  onMouseOut={(e) => {
+                    e.currentTarget.style.transform = 'translateY(0)';
+                    e.currentTarget.style.boxShadow = '0 2px 8px rgba(0, 0, 0, 0.1)';
+                  }}
+                >
+                  Book a call
+                </a>
+              </div>
+            </div>
+          </div>
+
           <div style={{ 
             marginBottom: '2rem',
             paddingTop: '1rem',
@@ -548,6 +643,436 @@ export default function Home() {
             onSave={handleSave}
             isAdmin={isAdmin}
           />
+        )}
+
+        {/* Booking Call Modal */}
+        {showBookingModal && (
+          <div
+            style={{
+              position: 'fixed',
+              top: 0,
+              left: 0,
+              right: 0,
+              bottom: 0,
+              background: 'rgba(0, 0, 0, 0.8)',
+              backdropFilter: 'blur(8px)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              zIndex: 1000,
+              padding: '1rem'
+            }}
+            onClick={(e) => {
+              if (e.target === e.currentTarget) {
+                setShowBookingModal(false);
+              }
+            }}
+          >
+            <div
+              style={{
+                background: '#1a1825',
+                borderRadius: '16px',
+                padding: '0',
+                maxWidth: '600px',
+                width: '100%',
+                maxHeight: '90vh',
+                overflowY: 'auto',
+                boxShadow: '0 20px 60px rgba(0, 0, 0, 0.5)',
+                border: '1px solid rgba(255, 255, 255, 0.1)',
+                position: 'relative'
+              }}
+              onClick={(e) => e.stopPropagation()}
+            >
+              {/* Modal Header */}
+              <div style={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                padding: '2rem 2rem 1.5rem 2rem',
+                borderBottom: '1px solid rgba(255, 255, 255, 0.1)'
+              }}>
+                <h2 style={{
+                  margin: 0,
+                  fontSize: '1.5rem',
+                  fontWeight: '700',
+                  color: '#ffffff'
+                }}>
+                  Book a 1-hour intro call
+                </h2>
+                <button
+                  onClick={() => setShowBookingModal(false)}
+                  style={{
+                    background: 'transparent',
+                    border: 'none',
+                    color: '#ffffff',
+                    fontSize: '1.5rem',
+                    cursor: 'pointer',
+                    padding: '0.5rem',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    borderRadius: '8px',
+                    transition: 'background 0.2s ease',
+                    width: '32px',
+                    height: '32px'
+                  }}
+                  onMouseOver={(e) => {
+                    e.currentTarget.style.background = 'rgba(255, 255, 255, 0.1)';
+                  }}
+                  onMouseOut={(e) => {
+                    e.currentTarget.style.background = 'transparent';
+                  }}
+                >
+                  ×
+                </button>
+              </div>
+
+              {/* Modal Body */}
+              <div style={{
+                padding: '2rem'
+              }}>
+                <form onSubmit={async (e) => {
+                  e.preventDefault();
+                  setIsSubmittingBooking(true);
+                  
+                  try {
+                    const response = await fetch('/api/booking', {
+                      method: 'POST',
+                      headers: {
+                        'Content-Type': 'application/json',
+                      },
+                      body: JSON.stringify(bookingFormData),
+                    });
+
+                    const result = await response.json();
+
+                    if (response.ok) {
+                      alert('Booking request submitted successfully! We will contact you soon.');
+                      // Reset form
+                      setBookingFormData({
+                        name: '',
+                        email: '',
+                        eventDescription: '',
+                        ticketingPlatform: '',
+                        timeSlots: [],
+                        ndaSigned: false
+                      });
+                      setShowBookingModal(false);
+                    } else {
+                      alert(`Error: ${result.error || 'Failed to submit booking request'}`);
+                    }
+                  } catch (error) {
+                    console.error('Error submitting booking:', error);
+                    alert('Failed to submit booking request. Please try again.');
+                  } finally {
+                    setIsSubmittingBooking(false);
+                  }
+                }}>
+                  {/* Your name */}
+                  <div style={{ marginBottom: '1.5rem' }}>
+                    <label style={{
+                      display: 'block',
+                      marginBottom: '0.5rem',
+                      fontSize: '0.95rem',
+                      fontWeight: '600',
+                      color: '#ffffff'
+                    }}>
+                      Your name
+                    </label>
+                    <input
+                      type="text"
+                      required
+                      value={bookingFormData.name}
+                      onChange={(e) => setBookingFormData({ ...bookingFormData, name: e.target.value })}
+                      style={{
+                        width: '100%',
+                        padding: '0.875rem 1rem',
+                        background: 'rgba(255, 255, 255, 0.05)',
+                        border: '1px solid rgba(255, 255, 255, 0.1)',
+                        borderRadius: '8px',
+                        color: '#ffffff',
+                        fontSize: '0.95rem',
+                        boxSizing: 'border-box',
+                        outline: 'none',
+                        transition: 'all 0.2s ease'
+                      }}
+                      onFocus={(e) => {
+                        e.target.style.borderColor = '#2563eb';
+                        e.target.style.background = 'rgba(255, 255, 255, 0.08)';
+                      }}
+                      onBlur={(e) => {
+                        e.target.style.borderColor = 'rgba(255, 255, 255, 0.1)';
+                        e.target.style.background = 'rgba(255, 255, 255, 0.05)';
+                      }}
+                      placeholder="Enter your name"
+                    />
+                  </div>
+
+                  {/* Email address */}
+                  <div style={{ marginBottom: '1.5rem' }}>
+                    <label style={{
+                      display: 'block',
+                      marginBottom: '0.5rem',
+                      fontSize: '0.95rem',
+                      fontWeight: '600',
+                      color: '#ffffff'
+                    }}>
+                      Email address
+                    </label>
+                    <input
+                      type="email"
+                      required
+                      value={bookingFormData.email}
+                      onChange={(e) => setBookingFormData({ ...bookingFormData, email: e.target.value })}
+                      style={{
+                        width: '100%',
+                        padding: '0.875rem 1rem',
+                        background: 'rgba(255, 255, 255, 0.05)',
+                        border: '1px solid rgba(255, 255, 255, 0.1)',
+                        borderRadius: '8px',
+                        color: '#ffffff',
+                        fontSize: '0.95rem',
+                        boxSizing: 'border-box',
+                        outline: 'none',
+                        transition: 'all 0.2s ease'
+                      }}
+                      onFocus={(e) => {
+                        e.target.style.borderColor = '#2563eb';
+                        e.target.style.background = 'rgba(255, 255, 255, 0.08)';
+                      }}
+                      onBlur={(e) => {
+                        e.target.style.borderColor = 'rgba(255, 255, 255, 0.1)';
+                        e.target.style.background = 'rgba(255, 255, 255, 0.05)';
+                      }}
+                      placeholder="Enter your email"
+                    />
+                  </div>
+
+                  {/* Briefly describe your events */}
+                  <div style={{ marginBottom: '1.5rem' }}>
+                    <label style={{
+                      display: 'block',
+                      marginBottom: '0.5rem',
+                      fontSize: '0.95rem',
+                      fontWeight: '600',
+                      color: '#ffffff'
+                    }}>
+                      Briefly describe your events
+                    </label>
+                    <textarea
+                      required
+                      value={bookingFormData.eventDescription}
+                      onChange={(e) => setBookingFormData({ ...bookingFormData, eventDescription: e.target.value })}
+                      rows={4}
+                      style={{
+                        width: '100%',
+                        padding: '0.875rem 1rem',
+                        background: 'rgba(255, 255, 255, 0.05)',
+                        border: '1px solid rgba(255, 255, 255, 0.1)',
+                        borderRadius: '8px',
+                        color: '#ffffff',
+                        fontSize: '0.95rem',
+                        resize: 'vertical',
+                        fontFamily: 'inherit',
+                        boxSizing: 'border-box',
+                        outline: 'none',
+                        transition: 'all 0.2s ease'
+                      }}
+                      onFocus={(e) => {
+                        e.target.style.borderColor = '#2563eb';
+                        e.target.style.background = 'rgba(255, 255, 255, 0.08)';
+                      }}
+                      onBlur={(e) => {
+                        e.target.style.borderColor = 'rgba(255, 255, 255, 0.1)';
+                        e.target.style.background = 'rgba(255, 255, 255, 0.05)';
+                      }}
+                      placeholder="Describe your events..."
+                    />
+                  </div>
+
+                  {/* Current ticketing platform */}
+                  <div style={{ marginBottom: '1.5rem' }}>
+                    <label style={{
+                      display: 'block',
+                      marginBottom: '0.5rem',
+                      fontSize: '0.95rem',
+                      fontWeight: '600',
+                      color: '#ffffff'
+                    }}>
+                      Current ticketing platform
+                    </label>
+                    <input
+                      type="text"
+                      value={bookingFormData.ticketingPlatform}
+                      onChange={(e) => setBookingFormData({ ...bookingFormData, ticketingPlatform: e.target.value })}
+                      style={{
+                        width: '100%',
+                        padding: '0.875rem 1rem',
+                        background: 'rgba(255, 255, 255, 0.05)',
+                        border: '1px solid rgba(255, 255, 255, 0.1)',
+                        borderRadius: '8px',
+                        color: '#ffffff',
+                        fontSize: '0.95rem',
+                        boxSizing: 'border-box',
+                        outline: 'none',
+                        transition: 'all 0.2s ease'
+                      }}
+                      onFocus={(e) => {
+                        e.target.style.borderColor = '#2563eb';
+                        e.target.style.background = 'rgba(255, 255, 255, 0.08)';
+                      }}
+                      onBlur={(e) => {
+                        e.target.style.borderColor = 'rgba(255, 255, 255, 0.1)';
+                        e.target.style.background = 'rgba(255, 255, 255, 0.05)';
+                      }}
+                      placeholder="e.g., Eventbrite, Ticketmaster, etc."
+                    />
+                  </div>
+
+                  {/* Select up to 3 time slots */}
+                  <div style={{ marginBottom: '1.5rem' }}>
+                    <label style={{
+                      display: 'block',
+                      marginBottom: '0.5rem',
+                      fontSize: '0.95rem',
+                      fontWeight: '600',
+                      color: '#ffffff'
+                    }}>
+                      Select up to 3 time slots for the call
+                    </label>
+                    <div style={{
+                      display: 'grid',
+                      gridTemplateColumns: 'repeat(auto-fill, minmax(150px, 1fr))',
+                      gap: '0.75rem',
+                      marginBottom: '0.5rem'
+                    }}>
+                      {['9:00 AM', '10:00 AM', '11:00 AM', '12:00 PM', '1:00 PM', '2:00 PM', '3:00 PM', '4:00 PM', '5:00 PM'].map((slot) => (
+                        <label
+                          key={slot}
+                          style={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            padding: '0.75rem',
+                            background: bookingFormData.timeSlots.includes(slot) 
+                              ? 'rgba(37, 99, 235, 0.2)' 
+                              : 'rgba(255, 255, 255, 0.05)',
+                            border: bookingFormData.timeSlots.includes(slot)
+                              ? '1px solid #2563eb'
+                              : '1px solid rgba(255, 255, 255, 0.1)',
+                            borderRadius: '8px',
+                            cursor: 'pointer',
+                            transition: 'all 0.2s ease'
+                          }}
+                        >
+                          <input
+                            type="checkbox"
+                            checked={bookingFormData.timeSlots.includes(slot)}
+                            onChange={(e) => {
+                              if (e.target.checked) {
+                                if (bookingFormData.timeSlots.length < 3) {
+                                  setBookingFormData({
+                                    ...bookingFormData,
+                                    timeSlots: [...bookingFormData.timeSlots, slot]
+                                  });
+                                }
+                              } else {
+                                setBookingFormData({
+                                  ...bookingFormData,
+                                  timeSlots: bookingFormData.timeSlots.filter(s => s !== slot)
+                                });
+                              }
+                            }}
+                            style={{
+                              marginRight: '0.5rem',
+                              cursor: 'pointer'
+                            }}
+                            disabled={!bookingFormData.timeSlots.includes(slot) && bookingFormData.timeSlots.length >= 3}
+                          />
+                          <span style={{
+                            color: '#ffffff',
+                            fontSize: '0.875rem'
+                          }}>
+                            {slot}
+                          </span>
+                        </label>
+                      ))}
+                    </div>
+                    <p style={{
+                      margin: 0,
+                      fontSize: '0.8rem',
+                      color: '#a0a3bd'
+                    }}>
+                      {bookingFormData.timeSlots.length}/3 selected
+                    </p>
+                  </div>
+
+                  {/* NDA Checkbox */}
+                  <div style={{ marginBottom: '2rem' }}>
+                    <label style={{
+                      display: 'flex',
+                      alignItems: 'flex-start',
+                      cursor: 'pointer'
+                    }}>
+                      <input
+                        type="checkbox"
+                        required
+                        checked={bookingFormData.ndaSigned}
+                        onChange={(e) => setBookingFormData({ ...bookingFormData, ndaSigned: e.target.checked })}
+                        style={{
+                          marginRight: '0.75rem',
+                          marginTop: '0.25rem',
+                          cursor: 'pointer',
+                          width: '18px',
+                          height: '18px'
+                        }}
+                      />
+                      <span style={{
+                        color: '#ffffff',
+                        fontSize: '0.95rem',
+                        lineHeight: '1.5'
+                      }}>
+                        I have reviewed and signed the NDA
+                      </span>
+                    </label>
+                  </div>
+
+                  {/* Submit Button */}
+                  <button
+                    type="submit"
+                    disabled={isSubmittingBooking}
+                    style={{
+                      width: '100%',
+                      padding: '1rem 2rem',
+                      background: isSubmittingBooking ? '#64748b' : '#2563eb',
+                      color: '#ffffff',
+                      border: 'none',
+                      borderRadius: '8px',
+                      fontSize: '1rem',
+                      fontWeight: '600',
+                      cursor: isSubmittingBooking ? 'not-allowed' : 'pointer',
+                      transition: 'all 0.2s ease',
+                      boxShadow: isSubmittingBooking ? 'none' : '0 4px 12px rgba(37, 99, 235, 0.3)',
+                      opacity: isSubmittingBooking ? 0.7 : 1
+                    }}
+                    onMouseOver={(e) => {
+                      if (!isSubmittingBooking) {
+                        e.currentTarget.style.background = '#1d4ed8';
+                        e.currentTarget.style.transform = 'translateY(-1px)';
+                      }
+                    }}
+                    onMouseOut={(e) => {
+                      if (!isSubmittingBooking) {
+                        e.currentTarget.style.background = '#2563eb';
+                        e.currentTarget.style.transform = 'translateY(0)';
+                      }
+                    }}
+                  >
+                    {isSubmittingBooking ? 'Submitting...' : 'Book call'}
+                  </button>
+                </form>
+              </div>
+            </div>
+          </div>
         )}
 
       </main>
