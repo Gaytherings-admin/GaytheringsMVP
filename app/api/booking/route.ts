@@ -73,10 +73,12 @@ export async function POST(request: Request) {
       );
     }
 
-    // Format time slots
-    const timeSlotsText = timeSlots && timeSlots.length > 0
-      ? timeSlots.join(', ')
-      : 'No time slots selected';
+    // Format time slots (now a string instead of array)
+    const timeSlotsText = timeSlots && typeof timeSlots === 'string' && timeSlots.trim()
+      ? timeSlots
+      : (Array.isArray(timeSlots) && timeSlots.length > 0
+          ? timeSlots.join(', ')
+          : 'No time slots selected');
 
     // Create email content
     const emailSubject = `New Booking Request: ${name} - Intro Call`;
@@ -166,12 +168,7 @@ export async function POST(request: Request) {
               <div class="field">
                 <span class="label">Preferred Time Slots:</span>
                 <div class="value">
-                  <div class="time-slots">
-                    ${timeSlots && timeSlots.length > 0
-                      ? timeSlots.map((slot: string) => `<span class="time-slot">${slot}</span>`).join('')
-                      : '<span>No time slots selected</span>'
-                    }
-                  </div>
+                  ${timeSlotsText || 'No time slots selected'}
                 </div>
               </div>
               

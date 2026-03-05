@@ -98,12 +98,13 @@ export default function Home() {
   const [needsProfileCompletion, setNeedsProfileCompletion] = useState(false);
   const [showBookingModal, setShowBookingModal] = useState(false);
   const [isSubmittingBooking, setIsSubmittingBooking] = useState(false);
+  const [showNDAModal, setShowNDAModal] = useState(false);
   const [bookingFormData, setBookingFormData] = useState({
     name: '',
     email: '',
     eventDescription: '',
     ticketingPlatform: '',
-    timeSlots: [] as string[],
+    timeSlots: '',
     ndaSigned: false
   });
 
@@ -332,19 +333,16 @@ export default function Home() {
         <div className={styles.apiData}>
           {/* Something Big is Coming Banner */}
           <div style={{
-            background: '#2563eb',
+            background: '#10234C',
             borderRadius: '12px',
             padding: '1.5rem 2rem',
             marginBottom: '2rem',
             display: 'flex',
             alignItems: 'flex-start',
-            gap: '1rem',
-            boxShadow: '0 4px 12px rgba(37, 99, 235, 0.3)',
+            gap: '1rem',            
             border: 'none'
           }}>
             <div style={{
-              fontSize: '1.75rem',
-              lineHeight: '1',
               flexShrink: 0,
               marginTop: '0.125rem',
               display: 'flex',
@@ -353,7 +351,9 @@ export default function Home() {
               width: '32px',
               height: '32px'
             }}>
-              ⭐
+              <svg width="32" height="30" viewBox="0 0 15 14" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ width: '100%', height: '100%' }}>
+                <path fillRule="evenodd" clipRule="evenodd" d="M6.58111 0.821876L6.55879 0.875508L5.09546 4.3938C5.04938 4.5046 4.94517 4.5803 4.82557 4.58989L1.02727 4.8944L0.969364 4.89904L0.615722 4.92739L0.294879 4.95312C0.0111508 4.97586 -0.103897 5.32994 0.112275 5.51511L0.356724 5.72451L0.626164 5.95532L0.670282 5.99311L3.56418 8.47204C3.65531 8.5501 3.69511 8.6726 3.66726 8.78931L2.78313 12.4958L2.76965 12.5523L2.68734 12.8974L2.61265 13.2105C2.54661 13.4874 2.84781 13.7062 3.09072 13.5579L3.36541 13.3901L3.66817 13.2051L3.71775 13.1748L6.96962 11.1886C7.07202 11.1261 7.20082 11.1261 7.30322 11.1886L10.5551 13.1748L10.6047 13.2051L10.9075 13.3901L11.1822 13.5579C11.425 13.7062 11.7263 13.4874 11.6602 13.2105L11.5855 12.8974L11.5032 12.5523L11.4897 12.4958L10.6056 8.78931C10.5778 8.6726 10.6176 8.5501 10.7087 8.47204L13.6025 5.99311L13.6467 5.95532L13.9161 5.72451L14.1606 5.51511C14.3767 5.32994 14.2617 4.97586 13.978 4.95312L13.6571 4.92739L13.3034 4.89904L13.2456 4.8944L9.44727 4.58989C9.32767 4.5803 9.22347 4.5046 9.17739 4.3938L7.71405 0.875508L7.69174 0.821876L7.5555 0.494302L7.43188 0.19711C7.32257 -0.0657035 6.95027 -0.0657035 6.84096 0.19711L6.71735 0.494302L6.58111 0.821876ZM7.13643 2.26429L6.08033 4.80343C5.88064 5.28355 5.42913 5.61159 4.9108 5.65315L2.16958 5.87291L4.2581 7.66195C4.65301 8.00023 4.82547 8.53102 4.70482 9.03681L4.06675 11.7118L6.41362 10.2783C6.85738 10.0073 7.41548 10.0073 7.85923 10.2783L10.206 11.7118L9.56802 9.03681C9.44737 8.53102 9.61983 8.00023 10.0147 7.66195L12.1032 5.87291L9.36204 5.65315C8.84371 5.61159 8.3922 5.28355 8.19251 4.80343L7.13643 2.26429Z" fill="#7CD3FF" fillOpacity="0.937255"/>
+              </svg>
             </div>
             <div style={{
               flex: 1,
@@ -391,8 +391,8 @@ export default function Home() {
                   style={{
                     display: 'inline-block',
                     padding: '0.75rem 1.5rem',
-                    background: '#ffffff',
-                    color: '#2563eb',
+                    background: '#5ECAF5',
+                    color: '#1B2024',
                     textDecoration: 'none',
                     borderRadius: '8px',
                     fontWeight: '600',
@@ -673,7 +673,7 @@ export default function Home() {
                 background: '#1a1825',
                 borderRadius: '16px',
                 padding: '0',
-                maxWidth: '600px',
+                maxWidth: '804px',
                 width: '100%',
                 maxHeight: '90vh',
                 overflowY: 'auto',
@@ -688,8 +688,7 @@ export default function Home() {
                 display: 'flex',
                 justifyContent: 'space-between',
                 alignItems: 'center',
-                padding: '2rem 2rem 1.5rem 2rem',
-                borderBottom: '1px solid rgba(255, 255, 255, 0.1)'
+                padding: '2rem 2rem 0rem 2rem'               
               }}>
                 <h2 style={{
                   margin: 0,
@@ -729,8 +728,17 @@ export default function Home() {
 
               {/* Modal Body */}
               <div style={{
-                padding: '2rem'
+                padding: '2rem',
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '1rem'
               }}>
+                <p style={{
+                  fontSize: '1.25rem',
+                  fontWeight: '200',
+                  color: '#ffffff',
+                  lineHeight: '1.4'
+                }}>We’re building something that will reshape how LGBTQ+ organizers grow on Gaytherings. Share a few details about your events and pick a time to see what’s coming.</p>
                 <form onSubmit={async (e) => {
                   e.preventDefault();
                   setIsSubmittingBooking(true);
@@ -754,7 +762,7 @@ export default function Home() {
                         email: '',
                         eventDescription: '',
                         ticketingPlatform: '',
-                        timeSlots: [],
+                        timeSlots: '',
                         ndaSigned: false
                       });
                       setShowBookingModal(false);
@@ -770,15 +778,6 @@ export default function Home() {
                 }}>
                   {/* Your name */}
                   <div style={{ marginBottom: '1.5rem' }}>
-                    <label style={{
-                      display: 'block',
-                      marginBottom: '0.5rem',
-                      fontSize: '0.95rem',
-                      fontWeight: '600',
-                      color: '#ffffff'
-                    }}>
-                      Your name
-                    </label>
                     <input
                       type="text"
                       required
@@ -804,21 +803,12 @@ export default function Home() {
                         e.target.style.borderColor = 'rgba(255, 255, 255, 0.1)';
                         e.target.style.background = 'rgba(255, 255, 255, 0.05)';
                       }}
-                      placeholder="Enter your name"
+                      placeholder="Your name *"
                     />
                   </div>
 
                   {/* Email address */}
                   <div style={{ marginBottom: '1.5rem' }}>
-                    <label style={{
-                      display: 'block',
-                      marginBottom: '0.5rem',
-                      fontSize: '0.95rem',
-                      fontWeight: '600',
-                      color: '#ffffff'
-                    }}>
-                      Email address
-                    </label>
                     <input
                       type="email"
                       required
@@ -844,21 +834,12 @@ export default function Home() {
                         e.target.style.borderColor = 'rgba(255, 255, 255, 0.1)';
                         e.target.style.background = 'rgba(255, 255, 255, 0.05)';
                       }}
-                      placeholder="Enter your email"
+                      placeholder="Email address *"
                     />
                   </div>
 
                   {/* Briefly describe your events */}
                   <div style={{ marginBottom: '1.5rem' }}>
-                    <label style={{
-                      display: 'block',
-                      marginBottom: '0.5rem',
-                      fontSize: '0.95rem',
-                      fontWeight: '600',
-                      color: '#ffffff'
-                    }}>
-                      Briefly describe your events
-                    </label>
                     <textarea
                       required
                       value={bookingFormData.eventDescription}
@@ -886,23 +867,15 @@ export default function Home() {
                         e.target.style.borderColor = 'rgba(255, 255, 255, 0.1)';
                         e.target.style.background = 'rgba(255, 255, 255, 0.05)';
                       }}
-                      placeholder="Describe your events..."
+                      placeholder="Briefly describe your events * What you run, where, how often, avg attendance, registrations"
                     />
                   </div>
 
                   {/* Current ticketing platform */}
                   <div style={{ marginBottom: '1.5rem' }}>
-                    <label style={{
-                      display: 'block',
-                      marginBottom: '0.5rem',
-                      fontSize: '0.95rem',
-                      fontWeight: '600',
-                      color: '#ffffff'
-                    }}>
-                      Current ticketing platform
-                    </label>
                     <input
                       type="text"
+                      required
                       value={bookingFormData.ticketingPlatform}
                       onChange={(e) => setBookingFormData({ ...bookingFormData, ticketingPlatform: e.target.value })}
                       style={{
@@ -925,84 +898,66 @@ export default function Home() {
                         e.target.style.borderColor = 'rgba(255, 255, 255, 0.1)';
                         e.target.style.background = 'rgba(255, 255, 255, 0.05)';
                       }}
-                      placeholder="e.g., Eventbrite, Ticketmaster, etc."
+                      placeholder="Current ticketing platform *"
                     />
                   </div>
 
                   {/* Select up to 3 time slots */}
                   <div style={{ marginBottom: '1.5rem' }}>
-                    <label style={{
-                      display: 'block',
-                      marginBottom: '0.5rem',
-                      fontSize: '0.95rem',
-                      fontWeight: '600',
-                      color: '#ffffff'
-                    }}>
-                      Select up to 3 time slots for the call
-                    </label>
-                    <div style={{
-                      display: 'grid',
-                      gridTemplateColumns: 'repeat(auto-fill, minmax(150px, 1fr))',
-                      gap: '0.75rem',
-                      marginBottom: '0.5rem'
-                    }}>
-                      {['9:00 AM', '10:00 AM', '11:00 AM', '12:00 PM', '1:00 PM', '2:00 PM', '3:00 PM', '4:00 PM', '5:00 PM'].map((slot) => (
-                        <label
-                          key={slot}
-                          style={{
-                            display: 'flex',
-                            alignItems: 'center',
-                            padding: '0.75rem',
-                            background: bookingFormData.timeSlots.includes(slot) 
-                              ? 'rgba(37, 99, 235, 0.2)' 
-                              : 'rgba(255, 255, 255, 0.05)',
-                            border: bookingFormData.timeSlots.includes(slot)
-                              ? '1px solid #2563eb'
-                              : '1px solid rgba(255, 255, 255, 0.1)',
-                            borderRadius: '8px',
-                            cursor: 'pointer',
-                            transition: 'all 0.2s ease'
-                          }}
-                        >
-                          <input
-                            type="checkbox"
-                            checked={bookingFormData.timeSlots.includes(slot)}
-                            onChange={(e) => {
-                              if (e.target.checked) {
-                                if (bookingFormData.timeSlots.length < 3) {
-                                  setBookingFormData({
-                                    ...bookingFormData,
-                                    timeSlots: [...bookingFormData.timeSlots, slot]
-                                  });
-                                }
-                              } else {
-                                setBookingFormData({
-                                  ...bookingFormData,
-                                  timeSlots: bookingFormData.timeSlots.filter(s => s !== slot)
-                                });
-                              }
-                            }}
-                            style={{
-                              marginRight: '0.5rem',
-                              cursor: 'pointer'
-                            }}
-                            disabled={!bookingFormData.timeSlots.includes(slot) && bookingFormData.timeSlots.length >= 3}
-                          />
-                          <span style={{
-                            color: '#ffffff',
-                            fontSize: '0.875rem'
-                          }}>
-                            {slot}
-                          </span>
-                        </label>
-                      ))}
-                    </div>
+                    <input
+                      type="text"
+                      value={bookingFormData.timeSlots}
+                      onChange={(e) => setBookingFormData({ ...bookingFormData, timeSlots: e.target.value })}
+                      style={{
+                        width: '100%',
+                        padding: '0.875rem 1rem',
+                        background: 'rgba(255, 255, 255, 0.05)',
+                        border: '1px solid rgba(255, 255, 255, 0.1)',
+                        borderRadius: '8px',
+                        color: '#ffffff',
+                        fontSize: '0.95rem',
+                        boxSizing: 'border-box',
+                        outline: 'none',
+                        transition: 'all 0.2s ease'
+                      }}
+                      onFocus={(e) => {
+                        e.target.style.borderColor = '#2563eb';
+                        e.target.style.background = 'rgba(255, 255, 255, 0.08)';
+                      }}
+                      onBlur={(e) => {
+                        e.target.style.borderColor = 'rgba(255, 255, 255, 0.1)';
+                        e.target.style.background = 'rgba(255, 255, 255, 0.05)';
+                      }}
+                      placeholder="Select up to 3 time slots for the call. We'll confirm one by email."
+                    />
+                  </div>
+
+                  {/* Review & sign NDA */}
+                  <div style={{ marginBottom: '1.5rem' }}>
                     <p style={{
                       margin: 0,
-                      fontSize: '0.8rem',
-                      color: '#a0a3bd'
+                      fontSize: '0.95rem',
+                      color: '#ffffff',
+                      lineHeight: '1.5'
                     }}>
-                      {bookingFormData.timeSlots.length}/3 selected
+                      Review & sign NDA:{' '}
+                      <span
+                        onClick={() => setShowNDAModal(true)}
+                        style={{
+                          color: '#5ECAF5',
+                          cursor: 'pointer',
+                          textDecoration: 'underline',
+                          fontWeight: '600'
+                        }}
+                        onMouseOver={(e) => {
+                          e.currentTarget.style.color = '#7CD3FF';
+                        }}
+                        onMouseOut={(e) => {
+                          e.currentTarget.style.color = '#5ECAF5';
+                        }}
+                      >
+                        Gaytherings NDA
+                      </span>
                     </p>
                   </div>
 
@@ -1043,7 +998,7 @@ export default function Home() {
                     style={{
                       width: '100%',
                       padding: '1rem 2rem',
-                      background: isSubmittingBooking ? '#64748b' : '#2563eb',
+                      background: isSubmittingBooking ? '#64748b' : '#7355D6',
                       color: '#ffffff',
                       border: 'none',
                       borderRadius: '8px',
@@ -1062,7 +1017,7 @@ export default function Home() {
                     }}
                     onMouseOut={(e) => {
                       if (!isSubmittingBooking) {
-                        e.currentTarget.style.background = '#2563eb';
+                        e.currentTarget.style.background = '#7355D6';
                         e.currentTarget.style.transform = 'translateY(0)';
                       }
                     }}
@@ -1070,6 +1025,426 @@ export default function Home() {
                     {isSubmittingBooking ? 'Submitting...' : 'Book call'}
                   </button>
                 </form>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* NDA Modal */}
+        {showNDAModal && (
+          <div
+            style={{
+              position: 'fixed',
+              top: 0,
+              left: 0,
+              right: 0,
+              bottom: 0,
+              background: 'rgba(0, 0, 0, 0.8)',
+              backdropFilter: 'blur(8px)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              zIndex: 2000,
+              padding: '1rem'
+            }}
+            onClick={(e) => {
+              if (e.target === e.currentTarget) {
+                setShowNDAModal(false);
+              }
+            }}
+          >
+            <div
+              style={{
+                background: '#1a1825',
+                borderRadius: '16px',
+                padding: '0',
+                maxWidth: '800px',
+                width: '100%',
+                maxHeight: '90vh',
+                overflowY: 'auto',
+                boxShadow: '0 20px 60px rgba(0, 0, 0, 0.5)',
+                border: '1px solid rgba(255, 255, 255, 0.1)',
+                position: 'relative'
+              }}
+              onClick={(e) => e.stopPropagation()}
+            >
+              {/* Modal Header */}
+              <div style={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                padding: '2rem 2rem 1.5rem 2rem',
+                borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
+                position: 'sticky',
+                top: 0,
+                background: '#1a1825',
+                zIndex: 1
+              }}>
+                <h2 style={{
+                  margin: 0,
+                  fontSize: '1.5rem',
+                  fontWeight: '700',
+                  color: '#ffffff'
+                }}>
+                  Gaytherings Non-Disclosure Agreement
+                </h2>
+                <button
+                  onClick={() => setShowNDAModal(false)}
+                  style={{
+                    background: 'transparent',
+                    border: 'none',
+                    color: '#ffffff',
+                    fontSize: '1.5rem',
+                    cursor: 'pointer',
+                    padding: '0.5rem',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    borderRadius: '8px',
+                    transition: 'background 0.2s ease',
+                    width: '32px',
+                    height: '32px'
+                  }}
+                  onMouseOver={(e) => {
+                    e.currentTarget.style.background = 'rgba(255, 255, 255, 0.1)';
+                  }}
+                  onMouseOut={(e) => {
+                    e.currentTarget.style.background = 'transparent';
+                  }}
+                >
+                  ×
+                </button>
+              </div>
+
+              {/* Modal Body */}
+              <div style={{
+                padding: '2rem',
+                color: '#ffffff',
+                lineHeight: '1.8'
+              }}>
+                <div style={{
+                  fontSize: '0.9rem',
+                  color: '#a0a3bd',
+                  marginBottom: '2rem'
+                }}>
+                  <strong style={{ color: '#ffffff' }}>Effective Date:</strong> 01 March 2026
+                </div>
+
+                <p style={{ marginBottom: '1.5rem' }}>
+                  Welcome to <strong>Gaytherings</strong>. This Non-Disclosure Agreement ("Agreement") outlines the terms under which confidential information related to the Gaytherings platform may be shared with partners, developers, collaborators, or other authorized individuals.
+                </p>
+
+                <p style={{ marginBottom: '2rem' }}>
+                  By accessing or working with Gaytherings' systems, codebase, or internal information, you agree to the terms described below.
+                </p>
+
+                <div style={{ marginBottom: '2rem' }}>
+                  <h3 style={{ 
+                    fontSize: '1.2rem', 
+                    fontWeight: '700', 
+                    color: '#ffffff',
+                    marginBottom: '1rem',
+                    marginTop: '2rem'
+                  }}>
+                    1. Purpose
+                  </h3>
+                  <p style={{ marginBottom: '1rem' }}>
+                    The purpose of this Agreement is to protect confidential and proprietary information related to the Gaytherings platform, including its technology, business model, and operational data.
+                  </p>
+                  <p>
+                    This information may be shared with individuals or organizations for purposes such as:
+                  </p>
+                  <ul style={{ 
+                    marginLeft: '1.5rem', 
+                    marginTop: '0.5rem',
+                    marginBottom: '1rem'
+                  }}>
+                    <li>Software development</li>
+                    <li>Technical integration</li>
+                    <li>Business partnerships</li>
+                    <li>Platform maintenance</li>
+                    <li>Consulting or advisory services</li>
+                  </ul>
+                </div>
+
+                <div style={{ marginBottom: '2rem' }}>
+                  <h3 style={{ 
+                    fontSize: '1.2rem', 
+                    fontWeight: '700', 
+                    color: '#ffffff',
+                    marginBottom: '1rem',
+                    marginTop: '2rem'
+                  }}>
+                    2. Confidential Information
+                  </h3>
+                  <p style={{ marginBottom: '1rem' }}>
+                    Confidential Information includes, but is not limited to:
+                  </p>
+                  <ul style={{ 
+                    marginLeft: '1.5rem', 
+                    marginTop: '0.5rem',
+                    marginBottom: '1rem'
+                  }}>
+                    <li>Source code, repositories, and software architecture</li>
+                    <li>APIs, integrations, and system documentation</li>
+                    <li>User data and platform analytics</li>
+                    <li>Business plans, pricing models, and revenue strategies</li>
+                    <li>Marketing strategies and operational workflows</li>
+                    <li>Security credentials, API keys, and tokens</li>
+                    <li>Any non-public information related to Gaytherings</li>
+                  </ul>
+                  <p>
+                    All such information is considered proprietary and confidential.
+                  </p>
+                </div>
+
+                <div style={{ marginBottom: '2rem' }}>
+                  <h3 style={{ 
+                    fontSize: '1.2rem', 
+                    fontWeight: '700', 
+                    color: '#ffffff',
+                    marginBottom: '1rem',
+                    marginTop: '2rem'
+                  }}>
+                    3. Responsibilities of the Receiving Party
+                  </h3>
+                  <p style={{ marginBottom: '1rem' }}>
+                    Anyone receiving confidential information from Gaytherings agrees to:
+                  </p>
+                  <ul style={{ 
+                    marginLeft: '1.5rem', 
+                    marginTop: '0.5rem',
+                    marginBottom: '1rem'
+                  }}>
+                    <li>Maintain strict confidentiality of all shared information</li>
+                    <li>Use the information only for authorized purposes</li>
+                    <li>Not share, distribute, or disclose the information to any third party</li>
+                    <li>Implement reasonable security measures to protect such information</li>
+                  </ul>
+                  <p>
+                    Unauthorized access, disclosure, or misuse of confidential information is strictly prohibited.
+                  </p>
+                </div>
+
+                <div style={{ marginBottom: '2rem' }}>
+                  <h3 style={{ 
+                    fontSize: '1.2rem', 
+                    fontWeight: '700', 
+                    color: '#ffffff',
+                    marginBottom: '1rem',
+                    marginTop: '2rem'
+                  }}>
+                    4. Exclusions
+                  </h3>
+                  <p>
+                    Confidential information does not include information that:
+                  </p>
+                  <ul style={{ 
+                    marginLeft: '1.5rem', 
+                    marginTop: '0.5rem',
+                    marginBottom: '1rem'
+                  }}>
+                    <li>Is publicly available without breach of this Agreement</li>
+                    <li>Was already known prior to disclosure</li>
+                    <li>Is independently developed without using Gaytherings' confidential information</li>
+                    <li>Is required to be disclosed by law or legal authority</li>
+                  </ul>
+                </div>
+
+                <div style={{ marginBottom: '2rem' }}>
+                  <h3 style={{ 
+                    fontSize: '1.2rem', 
+                    fontWeight: '700', 
+                    color: '#ffffff',
+                    marginBottom: '1rem',
+                    marginTop: '2rem'
+                  }}>
+                    5. Ownership of Information
+                  </h3>
+                  <p style={{ marginBottom: '1rem' }}>
+                    All confidential information shared under this Agreement remains the exclusive property of Gaytherings.
+                  </p>
+                  <p>
+                    This Agreement does not grant any rights to:
+                  </p>
+                  <ul style={{ 
+                    marginLeft: '1.5rem', 
+                    marginTop: '0.5rem',
+                    marginBottom: '1rem'
+                  }}>
+                    <li>Intellectual property</li>
+                    <li>Platform ownership</li>
+                    <li>Software code ownership</li>
+                    <li>Branding or trademarks</li>
+                  </ul>
+                </div>
+
+                <div style={{ marginBottom: '2rem' }}>
+                  <h3 style={{ 
+                    fontSize: '1.2rem', 
+                    fontWeight: '700', 
+                    color: '#ffffff',
+                    marginBottom: '1rem',
+                    marginTop: '2rem'
+                  }}>
+                    6. Non-Competition and Non-Use
+                  </h3>
+                  <p>
+                    Recipients of confidential information agree not to:
+                  </p>
+                  <ul style={{ 
+                    marginLeft: '1.5rem', 
+                    marginTop: '0.5rem',
+                    marginBottom: '1rem'
+                  }}>
+                    <li>Replicate or recreate the Gaytherings platform</li>
+                    <li>Develop a competing platform using shared knowledge</li>
+                    <li>Use Gaytherings' data, concepts, or technology for personal or commercial benefit</li>
+                  </ul>
+                </div>
+
+                <div style={{ marginBottom: '2rem' }}>
+                  <h3 style={{ 
+                    fontSize: '1.2rem', 
+                    fontWeight: '700', 
+                    color: '#ffffff',
+                    marginBottom: '1rem',
+                    marginTop: '2rem'
+                  }}>
+                    7. Duration of Agreement
+                  </h3>
+                  <p>
+                    This Agreement remains valid during the period of collaboration and for <strong>three (3) years after the termination of such relationship</strong>.
+                  </p>
+                </div>
+
+                <div style={{ marginBottom: '2rem' }}>
+                  <h3 style={{ 
+                    fontSize: '1.2rem', 
+                    fontWeight: '700', 
+                    color: '#ffffff',
+                    marginBottom: '1rem',
+                    marginTop: '2rem'
+                  }}>
+                    8. Data Return or Deletion
+                  </h3>
+                  <p style={{ marginBottom: '1rem' }}>
+                    Upon termination of collaboration or upon request by Gaytherings, all confidential information must be:
+                  </p>
+                  <ul style={{ 
+                    marginLeft: '1.5rem', 
+                    marginTop: '0.5rem',
+                    marginBottom: '1rem'
+                  }}>
+                    <li>Returned to Gaytherings</li>
+                    <li style={{ listStyle: 'none', marginLeft: '-1.5rem', marginTop: '0.5rem' }}>OR</li>
+                    <li>Permanently deleted from systems and storage.</li>
+                  </ul>
+                </div>
+
+                <div style={{ marginBottom: '2rem' }}>
+                  <h3 style={{ 
+                    fontSize: '1.2rem', 
+                    fontWeight: '700', 
+                    color: '#ffffff',
+                    marginBottom: '1rem',
+                    marginTop: '2rem'
+                  }}>
+                    9. Breach of Agreement
+                  </h3>
+                  <p>
+                    Any violation of this Agreement may result in:
+                  </p>
+                  <ul style={{ 
+                    marginLeft: '1.5rem', 
+                    marginTop: '0.5rem',
+                    marginBottom: '1rem'
+                  }}>
+                    <li>Immediate termination of access or collaboration</li>
+                    <li>Legal action</li>
+                    <li>Claims for damages resulting from the breach</li>
+                  </ul>
+                </div>
+
+                <div style={{ marginBottom: '2rem' }}>
+                  <h3 style={{ 
+                    fontSize: '1.2rem', 
+                    fontWeight: '700', 
+                    color: '#ffffff',
+                    marginBottom: '1rem',
+                    marginTop: '2rem'
+                  }}>
+                    10. Governing Law
+                  </h3>
+                  <p>
+                    This Agreement shall be governed by and interpreted in accordance with the laws of <strong>India</strong>.
+                  </p>
+                </div>
+
+                <div style={{ 
+                  marginBottom: '1rem',
+                  marginTop: '2rem',
+                  paddingTop: '2rem',
+                  borderTop: '1px solid rgba(255, 255, 255, 0.1)'
+                }}>
+                  <h3 style={{ 
+                    fontSize: '1.2rem', 
+                    fontWeight: '700', 
+                    color: '#ffffff',
+                    marginBottom: '1rem'
+                  }}>
+                    11. Contact
+                  </h3>
+                  <p style={{ marginBottom: '0.5rem' }}>
+                    For questions regarding this Non-Disclosure Agreement, please contact:
+                  </p>
+                  <p style={{ marginBottom: '0.5rem' }}>
+                    <strong>Gaytherings</strong>
+                  </p>
+                  <p style={{ marginBottom: '0.5rem' }}>
+                    Email: <a href="mailto:support@gaytherings.com" style={{ color: '#5ECAF5', textDecoration: 'underline' }}>support@gaytherings.com</a>
+                  </p>
+                  <p>
+                    Website: <a href="https://gaytherings.com" target="_blank" rel="noopener noreferrer" style={{ color: '#5ECAF5', textDecoration: 'underline' }}>https://gaytherings.com</a>
+                  </p>
+                </div>
+              </div>
+
+              {/* Modal Footer with Checkbox */}
+              <div style={{
+                padding: '1.5rem 2rem 2rem 2rem',
+                borderTop: '1px solid rgba(255, 255, 255, 0.1)',
+                background: '#1a1825',
+                position: 'sticky',
+                bottom: 0
+              }}>
+                <label style={{
+                  display: 'flex',
+                  alignItems: 'flex-start',
+                  cursor: 'pointer',
+                  gap: '0.75rem'
+                }}>
+                  <input
+                    type="checkbox"
+                    checked={bookingFormData.ndaSigned}
+                    onChange={(e) => setBookingFormData({ ...bookingFormData, ndaSigned: e.target.checked })}
+                    style={{
+                      marginTop: '0.25rem',
+                      cursor: 'pointer',
+                      width: '18px',
+                      height: '18px',
+                      flexShrink: 0
+                    }}
+                  />
+                  <span style={{
+                    color: '#ffffff',
+                    fontSize: '0.95rem',
+                    lineHeight: '1.5',
+                    flex: 1
+                  }}>
+                    I have reviewed and agree to the terms of this Non-Disclosure Agreement
+                  </span>
+                </label>
               </div>
             </div>
           </div>
