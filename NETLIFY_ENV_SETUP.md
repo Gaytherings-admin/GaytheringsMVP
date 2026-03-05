@@ -104,6 +104,27 @@ Key: IMGBB_API_KEY
 Value: df2bb71915b7c58cbcbdc8e00a41d668
 ```
 
+### **Email Configuration (SMTP)** (REQUIRED for Booking Form)
+
+**⚠️ IMPORTANT:** The booking form requires SMTP credentials to send emails.
+
+```
+Key: SMTP_USER
+Value: expert.techie31@gmail.com
+```
+
+```
+Key: SMTP_PASS
+Value: tlenfcilhpfnoqak
+```
+
+```
+Key: SMTP_FROM
+Value: expert.techie31@gmail.com
+```
+
+**Note:** For Gmail, you MUST use an App Password (not your regular password). See `EMAIL_SETUP.md` for instructions.
+
 ### **Clerk Webhook** (Optional - for production webhooks)
 
 ```
@@ -137,6 +158,11 @@ NEXT_PUBLIC_SITE_ID=6865ac77d1a4f0d42c02ccbf
 
 # ImgBB Image Hosting (Optional - has fallback)
 IMGBB_API_KEY=df2bb71915b7c58cbcbdc8e00a41d668
+
+# Email Configuration (REQUIRED for Booking Form)
+SMTP_USER=expert.techie31@gmail.com
+SMTP_PASS=tlenfcilhpfnoqak
+SMTP_FROM=expert.techie31@gmail.com
 ```
 
 ---
@@ -147,6 +173,11 @@ IMGBB_API_KEY=df2bb71915b7c58cbcbdc8e00a41d668
 1. ✅ `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY` - **REQUIRED** for authentication
 2. ✅ `CLERK_SECRET_KEY` - **REQUIRED** for authentication
 3. ✅ All other `NEXT_PUBLIC_CLERK_*` variables
+
+### **Required for Booking Form:**
+4. ✅ `SMTP_USER` - **REQUIRED** for email sending
+5. ✅ `SMTP_PASS` - **REQUIRED** for email sending (Gmail App Password)
+6. ✅ `SMTP_FROM` - **REQUIRED** for email sending
 
 ### **Optional (Has Fallbacks):**
 - Webflow API variables (fallbacks in `config.ts`)
@@ -224,11 +255,16 @@ Add in this order:
    - `CLERK_SECRET_KEY`
    - All other `NEXT_PUBLIC_CLERK_*` variables
 
-2. **IMPORTANT** (Add these next):
+2. **REQUIRED FOR BOOKING FORM** (Add these next):
+   - `SMTP_USER`
+   - `SMTP_PASS` (Gmail App Password)
+   - `SMTP_FROM`
+
+3. **IMPORTANT** (Add these next):
    - `NEXT_PUBLIC_AUTH_TOKEN`
    - All collection IDs
 
-3. **OPTIONAL** (Add if needed):
+4. **OPTIONAL** (Add if needed):
    - `IMGBB_API_KEY`
    - `CLERK_WEBHOOK_SECRET`
 
