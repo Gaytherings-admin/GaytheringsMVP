@@ -1,9 +1,8 @@
 # Email Setup Guide for Booking Form
 
-The booking form sends emails to the following recipients:
-- expert.techie31@gmail.com
-- vahan@gaytherings.com
-- matthew@gaytherings.com
+The booking form sends emails with the following configuration:
+- **Primary Recipient**: vahan@gaytherings.com
+- **CC Recipients**: matthew@gaytherings.com, expert.techie31@gmail.com
 
 ## Configuration Options
 

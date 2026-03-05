@@ -3,11 +3,11 @@ import nodemailer from 'nodemailer';
 
 export const dynamic = 'force-dynamic';
 
-// Email configuration - you can move these to environment variables
-const RECIPIENT_EMAILS = [
-  'expert.techie31@gmail.com',
-  'vahan@gaytherings.com',
-  'matthew@gaytherings.com'
+// Email configuration
+const PRIMARY_RECIPIENT = 'vahan@gaytherings.com';
+const CC_RECIPIENTS = [
+  'matthew@gaytherings.com',
+  'expert.techie31@gmail.com'
 ];
 
 // Create transporter - using Gmail SMTP as default
@@ -213,23 +213,20 @@ This booking request was submitted from the Gatherings CMS platform.
     // Create transporter
     const transporter = createTransporter();
 
-    // Send email to all recipients
-    const emailPromises = RECIPIENT_EMAILS.map((recipient) =>
-      transporter.sendMail({
-        from: process.env.SMTP_FROM || process.env.SMTP_USER || 'noreply@gatherings.com',
-        to: recipient,
-        subject: emailSubject,
-        text: emailText,
-        html: emailHtml,
-      })
-    );
-
-    await Promise.all(emailPromises);
+    // Send email to primary recipient with CC
+    await transporter.sendMail({
+      from: process.env.SMTP_FROM || process.env.SMTP_USER || 'noreply@gatherings.com',
+      to: PRIMARY_RECIPIENT,
+      cc: CC_RECIPIENTS,
+      subject: emailSubject,
+      text: emailText,
+      html: emailHtml,
+    });
 
     return NextResponse.json(
       { 
         success: true, 
-        message: 'Booking request submitted successfully. Emails sent to all recipients.' 
+        message: 'Booking request submitted successfully. Email sent to vahan@gaytherings.com with CC to matthew@gaytherings.com and expert.techie31@gmail.com.' 
       },
       { status: 200 }
     );
